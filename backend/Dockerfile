@@ -1,22 +1,23 @@
-# Use the official Node.js 18 image as base
-FROM node:18-alpine
+# Use the official Node.js image
+FROM node:24-slim
 
-# Set the working directory inside the container
+# Create app directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-# Copy the rest of the application code
+
+# Copy app source code
 COPY . .
 
-# Generate Prisma client
+# Generate Prisma Client
 RUN npx prisma generate
 
-# Expose the port the app runs on (adjust if your app uses a different port)
-EXPOSE 3000
+# Expose the port the app runs on
+EXPOSE 5000
 
-# Start the application
-CMD ["npm", "start"]
+# Command to run the app
+CMD ["node", "src/app.js"]
